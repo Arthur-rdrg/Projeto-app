@@ -1,0 +1,123 @@
+import { StyleSheet } from 'react-native';
+import { colors, shadows } from './theme';
+
+export const loginStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.green,
+  },
+  greenHeader: {
+    alignItems: 'center',
+    backgroundColor: colors.green,
+    minHeight: 300,
+    paddingHorizontal: 24,
+    paddingTop: 52,
+  },
+  title: {
+    color: colors.white,
+    fontSize: 24,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  subtitle: {
+    color: '#D8F8E5',
+    fontSize: 14,
+    marginTop: 4,
+    textAlign: 'center',
+  },
+  logoBox: {
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderRadius: 18,
+    height: 68,
+    justifyContent: 'center',
+    marginBottom: 16,
+    marginTop: 38,
+    width: 68,
+  },
+  backButton: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    gap: 8,
+  },
+  backButtonText: {
+    color: colors.white,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  form: {
+    backgroundColor: colors.panel,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    flex: 1,
+    gap: 10,
+    marginTop: -24,
+    padding: 24,
+    paddingTop: 30,
+  },
+  label: {
+    color: colors.textSoft,
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  input: {
+    backgroundColor: colors.panelSoft,
+    borderColor: '#E1E5EA',
+    borderRadius: 16,
+    borderWidth: 1,
+    color: colors.text,
+    fontSize: 16,
+    marginBottom: 8,
+    minHeight: 54,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  error: {
+    color: '#A33131',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  primaryButton: {
+    alignItems: 'center',
+    backgroundColor: colors.green,
+    borderRadius: 14,
+    justifyContent: 'center',
+    marginTop: 8,
+    minHeight: 58,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    ...shadows.floating,
+  },
+  disabledButton: {
+    opacity: 0.75,
+  },
+  primaryButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  secondaryButton: {
+    alignItems: 'center',
+    borderRadius: 8,
+    justifyContent: 'center',
+    minHeight: 44,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  secondaryButtonText: {
+    color: colors.greenText,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  terms: {
+    color: '#8D95A1',
+    fontSize: 12,
+    lineHeight: 18,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  pressed: {
+    opacity: 0.85,
+  },
+});
