@@ -5,8 +5,13 @@ import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { shoppingStyles as styles } from '../../styles/shoppingStyles';
 import { colors } from '../../styles/theme';
 
-export default function CameraCapture({ onCancel, onPhotoTaken }) {
-  const cameraRef = useRef(null);
+type CameraCaptureProps = {
+  onCancel: () => void;
+  onPhotoTaken: (imageUri: string) => void;
+};
+
+export default function CameraCapture({ onCancel, onPhotoTaken }: CameraCaptureProps) {
+  const cameraRef = useRef<CameraView>(null);
   const [permission, requestPermission] = useCameraPermissions();
   const [isTakingPicture, setIsTakingPicture] = useState(false);
 

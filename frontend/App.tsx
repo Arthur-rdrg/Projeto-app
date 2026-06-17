@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import type { User } from 'firebase/auth';
 import LoginScreen from './src/screens/LoginScreen';
 import ShoppingListScreen from './src/screens/ShoppingListScreen';
 import { watchAuthState } from './src/services/authService';
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

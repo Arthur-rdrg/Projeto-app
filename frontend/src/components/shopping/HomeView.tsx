@@ -3,7 +3,18 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { logout } from '../../services/authService';
 import { shoppingStyles as styles } from '../../styles/shoppingStyles';
 import { colors } from '../../styles/theme';
+import type { AuthenticatedUser } from '../../types';
 import { formatMoney, getFirstName } from '../../utils/formatters';
+
+type HomeViewProps = {
+  itemCount: number;
+  onOpenAddForm: () => void;
+  onOpenCheck: () => void;
+  onOpenList: () => void;
+  purchaseTotal: number;
+  unitsTotal: number;
+  user: AuthenticatedUser;
+};
 
 export default function HomeView({
   itemCount,
@@ -13,7 +24,7 @@ export default function HomeView({
   purchaseTotal,
   unitsTotal,
   user,
-}) {
+}: HomeViewProps) {
   return (
     <ScrollView contentContainerStyle={styles.homeContent}>
       <View style={styles.homeHeader}>

@@ -1,15 +1,28 @@
+import type { Dispatch, SetStateAction } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 import { shoppingStyles as styles } from '../../styles/shoppingStyles';
 import { colors } from '../../styles/theme';
+import type { ShoppingTab } from '../../types';
 
-const tabs = [
+type BottomTab = {
+  icon: keyof typeof Ionicons.glyphMap;
+  id: ShoppingTab;
+  label: string;
+};
+
+const tabs: BottomTab[] = [
   { icon: 'home-outline', id: 'home', label: 'Home' },
   { icon: 'list-outline', id: 'list', label: 'Lista' },
   { icon: 'checkmark-outline', id: 'check', label: 'Conferir' },
 ];
 
-export default function BottomTabs({ activeTab, setActiveTab }) {
+type BottomTabsProps = {
+  activeTab: ShoppingTab;
+  setActiveTab: Dispatch<SetStateAction<ShoppingTab>>;
+};
+
+export default function BottomTabs({ activeTab, setActiveTab }: BottomTabsProps) {
   return (
     <View style={styles.bottomTabs}>
       {tabs.map((tab) => {

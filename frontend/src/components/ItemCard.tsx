@@ -1,8 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image, Pressable, Text, View } from 'react-native';
 import { itemCardStyles as styles } from '../styles/itemCardStyles';
+import type { ShoppingItem } from '../types';
 
-export default function ItemCard({ item, onDecrease, onIncrease, onDelete }) {
+type ItemCardProps = {
+  item: ShoppingItem;
+  onDecrease: () => void;
+  onDelete: () => void;
+  onIncrease: () => void;
+};
+
+export default function ItemCard({ item, onDecrease, onIncrease, onDelete }: ItemCardProps) {
   return (
     <View style={styles.card}>
       {item.imageUrl ? (

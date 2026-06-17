@@ -3,7 +3,7 @@ import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 const productImagesDirectory = `${FileSystem.documentDirectory}product-images/`;
 
-export async function prepareProductImage(imageUri) {
+export async function prepareProductImage(imageUri: string) {
   return manipulateAsync(
     imageUri,
     [{ resize: { width: 900 } }],
@@ -24,7 +24,7 @@ async function ensureProductImagesDirectory() {
   }
 }
 
-export async function saveProductImageLocally(imageUri) {
+export async function saveProductImageLocally(imageUri: string) {
   await ensureProductImagesDirectory();
 
   const processedImage = await prepareProductImage(imageUri);

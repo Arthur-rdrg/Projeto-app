@@ -18,22 +18,33 @@ import {
   saveProductImageLocally,
 } from '../services/localImageService';
 import { shoppingStyles as styles } from '../styles/shoppingStyles';
+import type {
+  AuthenticatedUser,
+  FormField,
+  ShoppingItem,
+  ShoppingItemForm,
+  ShoppingTab,
+} from '../types';
 import { parseMoney, sumItemQuantities, sumItemTotals } from '../utils/formatters';
 
-const initialForm = {
+const initialForm: ShoppingItemForm = {
   imageUri: '',
   name: '',
   quantity: '1',
   unitPrice: '',
 };
 
-export default function ShoppingListScreen({ user }) {
-  const [items, setItems] = useState([]);
+type ShoppingListScreenProps = {
+  user: AuthenticatedUser;
+};
+
+export default function ShoppingListScreen({ user }: ShoppingListScreenProps) {
+  const [items, setItems] = useState<ShoppingItem[]>([]);
   const [form, setForm] = useState(initialForm);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState<ShoppingTab>('home');
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -56,7 +67,7 @@ export default function ShoppingListScreen({ user }) {
   const purchaseTotal = useMemo(() => sumItemTotals(items), [items]);
   const unitsTotal = useMemo(() => sumItemQuantities(items), [items]);
 
-  function updateForm(field, value) {
+  function updateForm(field: FormField, value: string) {
     setForm((currentForm) => ({
       ...currentForm,
       [field]: value,
@@ -102,7 +113,7 @@ export default function ShoppingListScreen({ user }) {
         imageUrl = await saveProductImageLocally(form.imageUri);
       } catch (error) {
         console.log('Erro ao salvar imagem local:', error);
-        setErrorMessage(getLocalImageErrorMessage(error));
+        setErrorMessage(getLocalImageErrorMessage());
         return;
       }
 
@@ -123,7 +134,7 @@ export default function ShoppingListScreen({ user }) {
     }
   }
 
-  async function handleChangeQuantity(item, nextQuantity) {
+  async function handleChangeQuantity(item: ShoppingItem, nextQuantity: number) {
     try {
       await updateItemQuantity(user.uid, item, nextQuantity);
     } catch (error) {
@@ -131,7 +142,7 @@ export default function ShoppingListScreen({ user }) {
     }
   }
 
-  async function handleDeleteItem(itemId) {
+  async function handleDeleteItem(itemId: string) {
     try {
       await deleteShoppingItem(user.uid, itemId);
     } catch (error) {

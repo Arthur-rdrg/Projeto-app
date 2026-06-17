@@ -2,9 +2,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { ScrollView, Text, View } from 'react-native';
 import { shoppingStyles as styles } from '../../styles/shoppingStyles';
 import { colors } from '../../styles/theme';
+import type { ShoppingItem } from '../../types';
 import { formatMoney } from '../../utils/formatters';
 
-export default function CheckView({ items, purchaseTotal }) {
+type CheckViewProps = {
+  items: ShoppingItem[];
+  purchaseTotal: number;
+};
+
+export default function CheckView({ items, purchaseTotal }: CheckViewProps) {
   return (
     <View style={styles.checkScreen}>
       <View style={styles.greenTopBar}>
@@ -39,7 +45,7 @@ export default function CheckView({ items, purchaseTotal }) {
   );
 }
 
-function CheckItem({ item }) {
+function CheckItem({ item }: { item: ShoppingItem }) {
   return (
     <View style={styles.checkItemCard}>
       <View style={styles.checkItemHeader}>

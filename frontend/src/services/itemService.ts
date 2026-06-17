@@ -3,19 +3,27 @@ import {
   collection,
   deleteDoc,
   doc,
+  FirestoreError,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
   updateDoc,
 } from 'firebase/firestore';
+import type { ShoppingItem } from '../types';
 import { db } from './firebaseConfig';
 
-function userItemsCollection(userId) {
+type NewShoppingItem = Omit<ShoppingItem, 'id' | 'total'>;
+
+function userItemsCollection(userId: string) {
   return collection(db, 'users', userId, 'items');
 }
 
-export function watchUserItems(userId, callback, onError) {
+export function watchUserItems(
+  userId: string,
+  callback: (items: ShoppingItem[]) => void,
+  onError: (error: FirestoreError) => void,
+) {
   const itemsQuery = query(userItemsCollection(userId), orderBy('createdAt', 'desc'));
 
   return onSnapshot(
@@ -24,7 +32,7 @@ export function watchUserItems(userId, callback, onError) {
       const items = snapshot.docs.map((itemDoc) => ({
         id: itemDoc.id,
         ...itemDoc.data(),
-      }));
+      })) as ShoppingItem[];
 
       callback(items);
     },
@@ -32,7 +40,7 @@ export function watchUserItems(userId, callback, onError) {
   );
 }
 
-export async function addShoppingItem(userId, item) {
+export async function addShoppingItem(userId: string, item: NewShoppingItem) {
   const unitPrice = Number(item.unitPrice);
   const quantity = Number(item.quantity);
 
@@ -46,7 +54,11 @@ export async function addShoppingItem(userId, item) {
   });
 }
 
-export async function updateItemQuantity(userId, item, quantity) {
+export async function updateItemQuantity(
+  userId: string,
+  item: ShoppingItem,
+  quantity: number,
+) {
   const newQuantity = Math.max(1, Number(quantity));
   const itemRef = doc(db, 'users', userId, 'items', item.id);
 
@@ -56,17 +68,19 @@ export async function updateItemQuantity(userId, item, quantity) {
   });
 }
 
-export async function deleteShoppingItem(userId, itemId) {
+export async function deleteShoppingItem(userId: string, itemId: string) {
   const itemRef = doc(db, 'users', userId, 'items', itemId);
   return deleteDoc(itemRef);
 }
 
-export function getFirestoreErrorMessage(error) {
-  const messages = {
+export function getFirestoreErrorMessage(error: unknown) {
+  const messages: Record<string, string> = {
     'permission-denied': 'Sem permissao para salvar no Firestore. Confira as regras do banco.',
     unavailable: 'Firestore indisponivel no momento. Verifique sua internet.',
     unauthenticated: 'Entre na conta novamente antes de salvar.',
   };
 
-  return messages[error?.code] || 'Nao foi possivel salvar os dados do produto.';
+  const errorCode = error instanceof FirestoreError ? error.code : '';
+
+  return messages[errorCode] || 'Nao foi possivel salvar os dados do produto.';
 }

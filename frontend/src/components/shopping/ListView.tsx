@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import type { Dispatch, SetStateAction } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -11,7 +12,24 @@ import {
 import ItemCard from '../ItemCard';
 import { shoppingStyles as styles } from '../../styles/shoppingStyles';
 import { colors } from '../../styles/theme';
+import type { FormField, ShoppingItem, ShoppingItemForm } from '../../types';
 import { formatMoney } from '../../utils/formatters';
+
+type ListViewProps = {
+  errorMessage: string;
+  form: ShoppingItemForm;
+  handleAddItem: () => Promise<void>;
+  handleChangeQuantity: (item: ShoppingItem, nextQuantity: number) => Promise<void>;
+  handleDeleteItem: (itemId: string) => Promise<void>;
+  isFormOpen: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+  items: ShoppingItem[];
+  purchaseTotal: number;
+  setIsCameraOpen: (isOpen: boolean) => void;
+  setIsFormOpen: Dispatch<SetStateAction<boolean>>;
+  updateForm: (field: FormField, value: string) => void;
+};
 
 export default function ListView({
   errorMessage,
@@ -27,7 +45,7 @@ export default function ListView({
   setIsCameraOpen,
   setIsFormOpen,
   updateForm,
-}) {
+}: ListViewProps) {
   return (
     <View style={styles.listScreen}>
       <View style={styles.greenTopBar}>
@@ -73,6 +91,15 @@ export default function ListView({
   );
 }
 
+type ProductFormProps = {
+  errorMessage: string;
+  form: ShoppingItemForm;
+  handleAddItem: () => Promise<void>;
+  isSaving: boolean;
+  setIsCameraOpen: (isOpen: boolean) => void;
+  updateForm: (field: FormField, value: string) => void;
+};
+
 function ProductForm({
   errorMessage,
   form,
@@ -80,7 +107,7 @@ function ProductForm({
   isSaving,
   setIsCameraOpen,
   updateForm,
-}) {
+}: ProductFormProps) {
   return (
     <View style={styles.formCard}>
       <Text style={styles.formTitle}>Adicionar produto</Text>
@@ -174,7 +201,14 @@ function ProductForm({
   );
 }
 
-function ItemList({ handleChangeQuantity, handleDeleteItem, isLoading, items }) {
+type ItemListProps = {
+  handleChangeQuantity: (item: ShoppingItem, nextQuantity: number) => Promise<void>;
+  handleDeleteItem: (itemId: string) => Promise<void>;
+  isLoading: boolean;
+  items: ShoppingItem[];
+};
+
+function ItemList({ handleChangeQuantity, handleDeleteItem, isLoading, items }: ItemListProps) {
   if (isLoading) {
     return <ActivityIndicator color={colors.green} />;
   }
