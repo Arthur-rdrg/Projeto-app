@@ -1,36 +1,50 @@
-
-# Frontend
+# Projeto-app - Frontend
 
 Aplicativo mobile do projeto Lista Inteligente de Compras.
+App mobile em React Native para conferencia de compras por imagem.
 
 ## Tecnologias
 
-- Expo
-- React Native
-- Firebase
-- Expo Camera
-- Expo Image Manipulator
-- Expo File System
+- Expo / React Native
+- Firebase (Authentication e Cloud Firestore)
+- Expo Camera / Expo Image Manipulator
+- Expo File System (com imagens salvas localmente no celular)
 
-## Comandos
+## Estrutura
+
+- `frontend`: aplicativo mobile com Expo/React Native.
+- `backend`: reservado para anotacoes.
+
+## Instalar e Rodar o Projeto
+
+Entre na pasta do app:
+
+```bash
+cd frontend
+```
+
+Instale as dependencias:
 
 ```bash
 npm install
-npm start
 ```
 
-No PowerShell do Windows, se `npm` for bloqueado pela politica de execucao, use:
+No PowerShell do Windows, se aparecer erro de script bloqueado com `npm.ps1`, use:
 
 ```bash
 npm.cmd install
+```
+
+Rode o projeto:
+
+```bash
+npm start
+```
+
+Ou, no mesmo caso do PowerShell:
+
+```bash
 npm.cmd start
 ```
 
-## Proximos passos
-
-1. Criar o projeto no Firebase Console.
-2. Ativar Authentication com e-mail e senha.
-3. Criar o Cloud Firestore.
-4. Adicionar `src/services/firebaseConfig.js` com as credenciais do Firebase.
-5. Criar as telas de login, lista de compras e cadastro de item.
-6. Salvar as imagens localmente com `expo-file-system`.
+Depois leia o QR Code com o app Expo Go no celular ou use o emulador / web.

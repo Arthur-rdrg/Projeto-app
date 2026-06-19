@@ -40,7 +40,7 @@ export default function ItemCard({ item, onDecrease, onIncrease, onDelete }: Ite
         <Pressable onPress={onDelete} style={({ pressed }) => [styles.deleteButton, pressed && styles.pressed]}>
           <Ionicons color="#E05A72" name="trash-outline" size={18} />
         </Pressable>
-        <Text style={styles.total}>R$ {Number(item.total).toFixed(2)}</Text>
+        <Text style={styles.total}>R$ {(Number(item.unitPrice || 0) * Number(item.quantity || 0)).toFixed(2)}</Text>
       </View>
     </View>
   );
