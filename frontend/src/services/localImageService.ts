@@ -1,7 +1,8 @@
 import * as FileSystem from 'expo-file-system/legacy';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
+import { Platform } from 'react-native';
 
-const productImagesDirectory = `${FileSystem.documentDirectory}product-images/`;
+const productImagesDirectory = Platform.OS === 'web' ? '' : `${FileSystem.documentDirectory}product-images/`;
 
 export async function prepareProductImage(imageUri: string) {
   return manipulateAsync(
@@ -15,6 +16,7 @@ export async function prepareProductImage(imageUri: string) {
 }
 
 async function ensureProductImagesDirectory() {
+  if (Platform.OS === 'web') return;
   const directoryInfo = await FileSystem.getInfoAsync(productImagesDirectory);
 
   if (!directoryInfo.exists) {
@@ -25,6 +27,16 @@ async function ensureProductImagesDirectory() {
 }
 
 export async function saveProductImageLocally(imageUri: string) {
+  if (Platform.OS === 'web') {
+    try {
+      const processedImage = await prepareProductImage(imageUri);
+      return processedImage.uri;
+    } catch (error) {
+      console.warn('Erro ao processar imagem no web:', error);
+      return imageUri;
+    }
+  }
+
   await ensureProductImagesDirectory();
 
   const processedImage = await prepareProductImage(imageUri);
